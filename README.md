@@ -1,5 +1,7 @@
 # AssertMatch
 
+[![Elixir CI](https://github.com/siiibo/assert_match/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/siiibo/assert_match/actions/workflows/build.yml)
+
 Leverages pattern matching & pipeline in Elixir tests!
 
 ## Motivation
