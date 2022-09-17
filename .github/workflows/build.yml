@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        elixir_version: ["1.14.0", "1.13.4", "1.12.3"]
-        otp_version: ["25", "24"]
+        elixir_version: ["1.14", "1.13", "1.12", "1.11"]
+        otp_version: ["24"]
 
     steps:
       - uses: actions/checkout@v3
