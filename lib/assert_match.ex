@@ -36,10 +36,10 @@ defmodule AssertMatch do
   """
   defmacro assert_match(subject, pattern) do
     case pattern do
-      nil ->
+      falsy when falsy == nil or falsy == false ->
         quote do
           left = unquote(subject)
-          assert left == nil
+          assert left == unquote(falsy)
           left
         end
 

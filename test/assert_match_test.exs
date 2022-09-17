@@ -7,6 +7,7 @@ defmodule AssertMatchTest do
     test "should work with static values" do
       assert_match(1, 1)
       assert_match(true, true)
+      assert_match(false, false)
       assert_match(nil, nil)
       assert_match(:atom, @atom)
       assert_match("string", "string")
