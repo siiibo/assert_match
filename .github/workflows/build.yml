@@ -23,7 +23,7 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: ${{ matrix.elixir_version }}-otp-${{ matrix.otp_version }}
+          elixir-version: ${{ matrix.elixir_version }}
           otp-version: ${{ matrix.otp_version }}
       - name: Restore dependencies cache
         uses: actions/cache@v3
