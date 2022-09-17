@@ -1,6 +1,25 @@
 # AssertMatch
 
-**TODO: Add description**
+Leverages pattern matching & pipeline in Elixir tests!
+
+## Motivation
+
+In short, we wanted this:
+
+```elixir
+conn
+|> post("/some/api")
+|> json_response(200)
+|> assert_match(%{
+  "success" => true,
+  "id" => ^context.some_fixture.id,
+  "bytesize" => ^byte_size(context.some_fixture.contents)
+})
+```
+
+* **Write assertions in pipeline**
+* **Assert by patterns**, not just concrete values (utilizing pattern-matching diffs in Elixir 1.10+)
+* Expand **function calls inside pins**, inspired by [Ecto.Query](https://hexdocs.pm/ecto/Ecto.Query.html#module-interpolation-and-casting)
 
 ## Installation
 

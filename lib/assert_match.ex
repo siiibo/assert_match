@@ -1,4 +1,8 @@
 defmodule AssertMatch do
+  @moduledoc """
+  Provides pipe-friendly `assert_match/2`
+  """
+
   @doc """
   Pipe-friendly equality/matching assertion.
 
