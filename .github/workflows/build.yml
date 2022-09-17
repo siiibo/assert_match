@@ -10,29 +10,77 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and test
+  build-otp-23:
+    name: Build and test on OTP 23
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        elixir_version: ["1.14", "1.13", "1.12", "1.11"]
-        otp_version: ["24"]
-
+        elixir_version: ["1.13", "1.12", "1.11", "1.10"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir_version }}
-          otp-version: ${{ matrix.otp_version }}
+          otp-version: "23"
       - name: Restore dependencies cache
         uses: actions/cache@v3
         with:
           path: deps
-          key: ${{ matrix.otp_version }}-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
+          key: 23-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            ${{ matrix.otp_version }}-${{ matrix.elixir_version }}-
-            ${{ matrix.otp_version }}-
+            23-${{ matrix.elixir_version }}-
+            23-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Run tests
+        run: mix test
+  build-otp-24:
+    name: Build and test on OTP 24
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        elixir_version: ["1.14", "1.13", "1.12", "1.11"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir_version }}
+          otp-version: "24"
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: deps
+          key: 24-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            24-${{ matrix.elixir_version }}-
+            24-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Run tests
+        run: mix test
+  build-otp-25:
+    name: Build and test on OTP 25
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        elixir_version: ["1.14", "1.13", "1.12"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir_version }}
+          otp-version: "25"
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: deps
+          key: 25-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            25-${{ matrix.elixir_version }}-
+            25-
       - name: Install dependencies
         run: mix deps.get
       - name: Run tests
