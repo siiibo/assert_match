@@ -7,14 +7,16 @@ Leverages pattern matching & pipeline in Elixir tests!
 In short, we wanted this:
 
 ```elixir
-conn
-|> post("/some/api")
-|> json_response(200)
-|> assert_match(%{
-  "success" => true,
-  "id" => ^context.some_fixture.id,
-  "bytesize" => ^byte_size(context.some_fixture.contents)
-})
+test "/some/api should work", context do
+  conn
+  |> post("/some/api")
+  |> json_response(200)
+  |> assert_match(%{
+    "success" => true,
+    "id" => ^context.some_fixture.id,
+    "bytesize" => ^byte_size(context.some_fixture.contents)
+  })
+end
 ```
 
 * **Write assertions in pipeline**
