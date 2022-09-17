@@ -2,9 +2,9 @@ name: Elixir CI
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
   pull_request:
-    branches: ["main"]
 
 permissions:
   contents: read
@@ -15,7 +15,11 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        elixir_version: ["1.13", "1.12", "1.11", "1.10"]
+        elixir_version:
+          - "1.10"
+          - "1.11"
+          - "1.12"
+          - "1.13"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Elixir
@@ -40,7 +44,11 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        elixir_version: ["1.14", "1.13", "1.12", "1.11"]
+        elixir_version:
+          - "1.11"
+          - "1.12"
+          - "1.13"
+          - "1.14"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Elixir
@@ -65,7 +73,9 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        elixir_version: ["1.14", "1.13", "1.12"]
+        elixir_version:
+          - "1.13"
+          - "1.14"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Elixir
