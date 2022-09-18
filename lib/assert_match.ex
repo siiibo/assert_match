@@ -39,7 +39,7 @@ defmodule AssertMatch do
       falsy when falsy == nil or falsy == false ->
         quote do
           left = unquote(subject)
-          assert left == unquote(falsy)
+          ExUnit.Assertions.assert(left == unquote(falsy))
           left
         end
 
@@ -47,7 +47,7 @@ defmodule AssertMatch do
         quote do
           left = unquote(subject)
           right = unquote(pattern)
-          assert left =~ right
+          ExUnit.Assertions.assert(left =~ right)
           left
         end
 
@@ -58,7 +58,7 @@ defmodule AssertMatch do
         quote do
           right = unquote(subject)
           unquote(tmpvar_definitions(extracted_tmpvars))
-          assert unquote(matchable_ast) = right
+          ExUnit.Assertions.assert(unquote(matchable_ast) = right)
           right
         end
     end
