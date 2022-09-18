@@ -29,7 +29,6 @@ end
 
 <a href="https://docs.google.com/presentation/d/e/2PACX-1vRuIA2ocDafLRJUn6nWScZmOq6YwpqXba7x5RG72yzT3X7FB-JcET33QMGsBidHsAdbnVF9KYCOa00R/pub?start=false&loop=false&delayms=3000&slide=id.p"><img src="slide.png" alt="Further leveraging pattern matches in Elixir unit tests!" width="320"/></a>
 
-
 ## Installation
 
 ```elixir
