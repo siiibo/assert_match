@@ -11,4 +11,4 @@ set -euo pipefail
 
 version=$(mix run -e 'IO.puts(Mix.Project.config[:version])')
 git tag "v$version"
-git push "v$version"
+git push origin "v$version"
