@@ -9,7 +9,7 @@ defmodule AssertMatch.MixProject do
       version: "1.0.0",
       elixir: "~> 1.10",
       package: package(),
-      deps: []
+      deps: [{:ex_doc, "~> 0.27", only: :dev, runtime: false}]
     ]
   end
 
