@@ -19,7 +19,7 @@ defmodule AssertMatch do
   However, this macro "extracts" runtime function calls on pins in the pattern
   and bind their results to temporary variables named `pinned__<n>`
   (where `<n>` is unique integer) so that you can actually write
-  function calls with pins! (Just like you do with `Ecto.Query`)
+  function calls with pins! (Just like you do with [`Ecto.Query`](https://hexdocs.pm/ecto/Ecto.Query.html#module-interpolation-and-casting))
 
   With this you are now able to write test expressions like so:
 
@@ -32,7 +32,7 @@ defmodule AssertMatch do
         "bytesize" => ^byte_size(context.some_fixture.contents)
       })
 
-  You cannot nest pinned expressions. See test/support/assertion_test.exs for more usages.
+  You cannot nest pinned expressions. See test/assert_match_test.exs for more usages.
   """
   defmacro assert_match(subject, pattern) do
     case pattern do
