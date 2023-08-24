@@ -30,6 +30,11 @@ defmodule AssertMatchTest do
       assert_match([1, 2], [_ | _])
     end
 
+    test "should work with incomplete struct patterns" do
+      # As a value, %Date{year: 2018} raises since [:month, :day] are also enforced.
+      assert_match(~D[2018-01-01], %Date{year: 2018})
+    end
+
     test "should work with bindings" do
       assert_match(1, int)
       assert_match("prefix match", "prefix" <> rest)
