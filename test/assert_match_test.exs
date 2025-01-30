@@ -27,8 +27,14 @@ defmodule AssertMatchTest do
       assert_match("prefix match", "prefix" <> _)
       assert_match(%{key: 1}, %{})
       assert_match(%{key: 1}, %{key: _})
-      assert_match(%{key: 1}, map when is_map_key(map, :key))
       assert_match([1, 2], [_ | _])
+    end
+
+    test "should work with guards" do
+      assert_match(%{key: 1}, map when is_map_key(map, :key))
+
+      # guard works with assert_match/2 but has limitation: bindings inside patterns cannot be used from outside
+      assert_match(%{key: 1}, %{key: _value} = map when not is_map_key(map, :nonkey))
     end
 
     test "should work with incomplete struct patterns" do

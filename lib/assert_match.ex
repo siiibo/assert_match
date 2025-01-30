@@ -6,10 +6,18 @@ defmodule AssertMatch do
   @doc """
   Pipe-friendly equality/matching assertion.
 
-  Performs:
+  Performs `assert/1` with:
 
   - `=~` for Regex patterns
+  - `match?/2` for patterns with guards
   - `=` for other patterns
+
+  For the third variant, it can utilize bindings inside the pattern from outside!
+
+      %{key: 1}
+      |> assert_match(%{key: value})
+
+      assert value == 1
 
   ## Extraction of pinned function calls
 
@@ -33,7 +41,27 @@ defmodule AssertMatch do
       })
 
   You cannot nest pinned expressions. See test/assert_match_test.exs for more usages.
+
+  ## Guards
+
+  Guards are supported, but with limitations: if guards are used, bindings inside patterns cannot be used from outside.
+
+      %{key: 1}
+      |> assert_match(map when is_map(map))
+      # => Passes
+
+      assert map == %{key: 1}
+      # => error: undefined variable "map"
+
+  Related: bindings inside patterns that are NOT used in the guards are warned as unused.
+
+      %{key: 1}
+      |> assert_match(%{key: value} = map when not is_map_key(map, :nonkey))
+      # => warning: variable "value" is unused (if the variable is not meant to be used, prefix it with an underscore)
+
+  This is a relatively new limitation introduced in Elixir 1.18, as a side-effect of [this change](https://github.com/elixir-lang/elixir/pull/13817).
   """
+  @spec assert_match(any, Macro.t()) :: any
   defmacro assert_match(subject, pattern) do
     case pattern do
       falsy when falsy == nil or falsy == false ->
@@ -55,11 +83,23 @@ defmodule AssertMatch do
         {matchable_ast, extracted_tmpvars} = extract_pinned_function_calls_to_variables(pattern)
         # Notice pattern is at left-hand side
         # In Elixir 1.10+, match assertions can display rich diffs for various subject-pattern combinations
-        quote do
-          right = unquote(subject)
-          unquote(tmpvar_definitions(extracted_tmpvars))
-          ExUnit.Assertions.assert(unquote(matchable_ast) = right)
-          right
+        case matchable_ast do
+          {:when, _location, _branches} = ast_with_guard ->
+            # After Elixir 1.18, patterns with guards require special treatment. cf. https://github.com/elixir-lang/elixir/pull/13817
+            quote do
+              right = unquote(subject)
+              unquote(tmpvar_definitions(extracted_tmpvars))
+              ExUnit.Assertions.assert(match?(unquote(ast_with_guard), right))
+              right
+            end
+
+          _otherwise ->
+            quote do
+              right = unquote(subject)
+              unquote(tmpvar_definitions(extracted_tmpvars))
+              ExUnit.Assertions.assert(unquote(matchable_ast) = right)
+              right
+            end
         end
     end
   end
