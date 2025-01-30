@@ -10,31 +10,6 @@ permissions:
   contents: read
 
 jobs:
-  build-otp-23:
-    name: Build and test on OTP 23
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        elixir_version:
-          - "1.10"
-          - "1.11"
-          - "1.12"
-          - "1.13"
-    steps:
-      - uses: actions/checkout@v3
-      - uses: erlef/setup-beam@v1
-        with:
-          elixir-version: ${{ matrix.elixir_version }}
-          otp-version: "23"
-      - uses: actions/cache@v3
-        with:
-          path: deps
-          key: 23-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            23-${{ matrix.elixir_version }}-
-            23-
-      - run: mix deps.get
-      - run: mix test
   build-otp-24:
     name: Build and test on OTP 24
     runs-on: ubuntu-20.04
@@ -92,6 +67,7 @@ jobs:
         elixir_version:
           - "1.14"
           - "1.15"
+          - "1.16"
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
@@ -105,5 +81,29 @@ jobs:
           restore-keys: |
             26-${{ matrix.elixir_version }}-
             26-
+      - run: mix deps.get
+      - run: mix test
+  build-otp-27:
+    name: Build and test on OTP 27
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        elixir_version:
+          - "1.16"
+          - "1.17"
+          - "1.18"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir_version }}
+          otp-version: "27"
+      - uses: actions/cache@v3
+        with:
+          path: deps
+          key: 27-${{ matrix.elixir_version }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            27-${{ matrix.elixir_version }}-
+            27-
       - run: mix deps.get
       - run: mix test
