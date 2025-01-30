@@ -18,7 +18,7 @@ defmodule AssertMatchTest do
     end
 
     test "should work with regex" do
-      assert_match("prefix match", ~R/prefix/)
+      assert_match("prefix match", ~r/prefix/)
       assert_match("prefix match", ~r/#{"prefix"}/)
     end
 
