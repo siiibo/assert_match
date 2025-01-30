@@ -27,6 +27,7 @@ defmodule AssertMatchTest do
       assert_match("prefix match", "prefix" <> _)
       assert_match(%{key: 1}, %{})
       assert_match(%{key: 1}, %{key: _})
+      assert_match(%{key: 1}, map when is_map_key(map, :key))
       assert_match([1, 2], [_ | _])
     end
 
